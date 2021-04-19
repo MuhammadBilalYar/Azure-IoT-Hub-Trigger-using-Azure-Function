@@ -8,7 +8,7 @@ export default class AzureServiceBusClient {
         this._sbClient = new ServiceBusClient(Config.ServiceBusConnection);
         this._sender = this._sbClient.createSender(Config.ServiceBusTopic)
     }
-    public async Send(messages: any) {
+    public async Send(messages: ServiceBusMessage[]) {
         try {
             let batch = await this._sender.createMessageBatch();
 

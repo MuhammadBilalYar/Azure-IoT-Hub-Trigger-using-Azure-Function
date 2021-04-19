@@ -11,6 +11,6 @@ export default class Config {
     }
 
     public static get ServiceBusTopic(): string {
-        return Config.get("QUEUE_NAME");
+        return Config.get("TOPIC_NAME");
     }
 }
