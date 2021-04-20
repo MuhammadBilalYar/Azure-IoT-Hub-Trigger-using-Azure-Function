@@ -13,4 +13,10 @@ export default class Config {
     public static get ServiceBusTopic(): string {
         return Config.get("TOPIC_NAME");
     }
+    public static get StorageConnection(): string {
+        return Config.get("AZURE_STORAGE_CONNECTION_STRING");
+    }
+    public static get ContainerName(): string {
+        return "data-ingestion";
+    }
 }
