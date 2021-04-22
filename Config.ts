@@ -19,4 +19,7 @@ export default class Config {
     public static get ContainerName(): string {
         return "data-ingestion";
     }
+    public static get EncryptedCipherKey(): string {
+        return Config.get("CIPHER_KEY");
+    }
 }

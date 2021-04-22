@@ -5,7 +5,7 @@
       "name": "IoTHubMessages",
       "direction": "in",
       "eventHubName": "samples-workitems",
-      "connection": "",
+      "connection": "HostName=nantum-iot-hub.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=noowTSpWSHiHowYQ1AvOoRix5XdqUzyywaNpIYo9Qog=",
       "cardinality": "many",
       "consumerGroup": "$Default"
     }

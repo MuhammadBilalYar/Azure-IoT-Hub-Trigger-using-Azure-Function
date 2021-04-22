@@ -1,4 +1,5 @@
 import { ContainerClient, BlobServiceClient, BlobDownloadResponseModel } from "@azure/storage-blob";
+import { config } from "node:process";
 import Config from "../Config";
 export default class AzureStorageClient {
     private readonly _blobServiceClient: BlobServiceClient;

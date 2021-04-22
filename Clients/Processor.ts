@@ -39,7 +39,7 @@ export default class Processor {
         const client = new AzureServiceBusClient();
         await client.Send(_messages);
     }
-    private static async Start(input: any, config: any) {
+    public static async Start(input: any, config: any) {
         try {
             const parsed = this.Parse(input);
             const verified = this.Verify(parsed, config.cert);
