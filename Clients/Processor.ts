@@ -23,7 +23,7 @@ export default class Processor {
     }
 
     private static Decrypt(input, key, iv) {
-        let decipher = crypto.createDecipheriv('aes-256-cbc', key, new Buffer(iv)); // convert the stringified iv back to a buffer
+        let decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(iv)); // convert the stringified iv back to a buffer
         let decrypted = decipher.update(input, 'hex', 'utf8');
         decrypted += decipher.final('utf8');
         decrypted = JSON.parse(decrypted);

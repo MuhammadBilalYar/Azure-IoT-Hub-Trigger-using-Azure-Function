@@ -11,8 +11,8 @@ const IoTHubTrigger: AzureFunction = async function (context: Context, IoTHubMes
     const client = new AzureStorageClient();
     const CERT = await client.GetBlob();
     IoTHubMessages.forEach(async message => {
-        let payload = new Buffer(message.record.data, 'base64').toString('ascii');
-        await Processor.Start(payload, { cipherKey: Config.EncryptedCipherKey, cert: CERT })
+        context.log(message);
+        await Processor.Start(message, { cipherKey: Config.EncryptedCipherKey, cert: CERT })
     });
 };
 
