@@ -12,10 +12,16 @@ const IoTHubTrigger: AzureFunction = async function (context: Context, IoTHubMes
         const Cert = await client.GetBlob();
         if (Cert === undefined || Cert === "")
             throw new Error("Certificate not found");
-        IoTHubMessages.forEach(async message => {
+
+        for (const message of IoTHubMessages) {
             context.log(message);
-            await Processor.Start(message, { cipherKey: Config.EncryptedCipherKey, cert: Cert })
-        });
+            try {
+                await Processor.Start(message, { cipherKey: Config.EncryptedCipherKey, cert: Cert });
+            } catch (error) {
+                context.done(error);
+                break;
+            }
+        }
     } catch (error) {
         context.done(error);
     }

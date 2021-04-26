@@ -54,7 +54,7 @@ export default class Processor {
             await this.Publish(decrypted);
             console.log("Published.")
         } catch (error) {
-            throw new Error(error);
+            return Promise.reject(error);
         }
     }
 }
