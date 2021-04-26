@@ -7,17 +7,20 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.log('HTTP trigger function processed a request.');
 
     const payload = req.body;
+    try {
+        const client = new AzureStorageClient();
+        const Cert = await client.GetBlob();
+        if (Cert === undefined || Cert === "")
+            throw new Error("Certificate not found");
+        await Processor.Start(payload, { cipherKey: Config.EncryptedCipherKey, cert: Cert })
 
-    const client = new AzureStorageClient();
-    const CERT = await client.GetBlob();
-
-    await Processor.Start(payload, { cipherKey: Config.EncryptedCipherKey, cert: CERT })
-
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: payload
-    };
-
+        context.res = {
+            // status: 200, /* Defaults to 200 */
+            body: payload
+        };
+    } catch (err) {
+        context.done(err);
+    }
 };
 
 export default httpTrigger;

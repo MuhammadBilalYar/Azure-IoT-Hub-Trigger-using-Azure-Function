@@ -22,7 +22,7 @@ export default class AzureStorageClient {
                     const stringContent = await this.streamToString(response.readableStreamBody);
                     resolve(stringContent);
                 } else {
-                    resolve("{}");
+                    reject("Certificate with name " + this._fileName + " not found.")
                 }
             } catch (error) {
                 reject(error);

@@ -7,13 +7,18 @@ const IoTHubTrigger: AzureFunction = async function (context: Context, IoTHubMes
     context.log(`Eventhub trigger function called for message array: ${IoTHubMessages}`);
 
     context.log('NumRecords', IoTHubMessages.length);
-
-    const client = new AzureStorageClient();
-    const CERT = await client.GetBlob();
-    IoTHubMessages.forEach(async message => {
-        context.log(message);
-        await Processor.Start(message, { cipherKey: Config.EncryptedCipherKey, cert: CERT })
-    });
+    try {
+        const client = new AzureStorageClient();
+        const Cert = await client.GetBlob();
+        if (Cert === undefined || Cert === "")
+            throw new Error("Certificate not found");
+        IoTHubMessages.forEach(async message => {
+            context.log(message);
+            await Processor.Start(message, { cipherKey: Config.EncryptedCipherKey, cert: Cert })
+        });
+    } catch (error) {
+        context.done(error);
+    }
 };
 
 export default IoTHubTrigger;

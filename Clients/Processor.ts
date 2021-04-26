@@ -19,7 +19,7 @@ export default class Processor {
         if (verified)
             return record;
         else
-            throw new Error('Error verifying record');
+            throw new Error('Error verifying input data: either data or signature are incorrect.');
     }
 
     private static Decrypt(input, key, iv) {
@@ -41,10 +41,18 @@ export default class Processor {
     }
     public static async Start(input: any, config: any) {
         try {
+            console.log("Parsing input data.")
             const parsed = this.Parse(input);
+
+            console.log("Verifying input data and signature.")
             const verified = this.Verify(parsed, config.cert);
+
+            console.log("Decrypting verified data using cipher key")
             const decrypted = this.Decrypt(verified.data, config.cipherKey, verified.iv);
+
+            console.log("Data decrypted, publishing to service bus.")
             await this.Publish(decrypted);
+            console.log("Published.")
         } catch (error) {
             throw new Error(error);
         }
